@@ -6,7 +6,7 @@
 //const ENDPOINT =  // Endpoint da API
 //console.log("host: "+ENDPOINT);
 // script.js
-let ENDPOINT = "http://"+document.getElementById('host').getAttribute('data-host')+"/"; // Endpoint da API
+let ENDPOINT = "//"+document.getElementById('host').getAttribute('data-host')+"/"; // Endpoint da API
 ENDPOINT = String(ENDPOINT);
 console.log("host: "+ENDPOINT);
 $('#theForm').submit((e) => {
