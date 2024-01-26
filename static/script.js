@@ -1,6 +1,6 @@
 // script.js
 const ENDPOINT = "{{ host }}"; // Endpoint da API
-
+console.log(ENDPOINT);
 $('#theForm').submit((e) => {
     e.preventDefault();
     $("#resultado").empty(); // limpa o conteúdo da div
