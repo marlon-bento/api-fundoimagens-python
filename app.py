@@ -3,11 +3,18 @@
 # pipenv install opencv-python numpy matplotlib flask flask-cors scipy 
 # pip install scipy
 #
+
+
+from scipy.ndimage import label, generate_binary_structure
 from flask import Flask, request, jsonify, render_template
 #from flask_cors import CORS
 import cv2
 import numpy as np
 import base64
+from matplotlib import pyplot as plt
+import io
+
+from werkzeug.utils import secure_filename
 import tempfile
 import os
 
@@ -276,10 +283,6 @@ def preencher_vizinhanca(imagem, tamanho_vizinhanca):
 
 
 # MAIN
-
-
-
-app = Flask(__name__)
 
 if __name__ == '__main__':
     app.run(debug=True)
