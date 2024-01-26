@@ -1,6 +1,10 @@
 // script.js
-const ENDPOINT = "{{ host }}"; // Endpoint da API
-console.log(ENDPOINT);
+// Recupera o host do atributo de dados
+
+// Use host como necessário no seu código JavaScript
+
+const ENDPOINT = document.getElementById('host').getAttribute('data-host'); // Endpoint da API
+console.log("host: "+ENDPOINT);
 $('#theForm').submit((e) => {
     e.preventDefault();
     $("#resultado").empty(); // limpa o conteúdo da div

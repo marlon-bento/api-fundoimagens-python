@@ -11,7 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+        
+    <!-- Defina o host como um atributo de dados -->
+        <script id="host" data-host="{{ host }}"></script>
     <script src="{{ url_for('static', filename='menu.js') }}"></script>
+
     <style>
         *{
             font-family: 'Poppins', sans-serif;
