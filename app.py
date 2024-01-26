@@ -5,21 +5,23 @@
 #
 
 
-from scipy.ndimage import label, generate_binary_structure
+
 from flask import Flask, request, jsonify, render_template
-#from flask_cors import CORS
+from flask_cors import CORS
 import cv2
 import numpy as np
 import base64
-from matplotlib import pyplot as plt
-import io
 
 from werkzeug.utils import secure_filename
 import tempfile
 import os
 
 app = Flask(__name__)
-#CORS(app)# Adicione esta linha para habilitar CORS
+CORS(app)# Adicione esta linha para habilitar CORS
+# MAIN
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 #Extensoes permitidas
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -282,7 +284,3 @@ def preencher_vizinhanca(imagem, tamanho_vizinhanca):
     return imagem_conectada
 
 
-# MAIN
-
-if __name__ == '__main__':
-    app.run(debug=True)
