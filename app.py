@@ -16,7 +16,7 @@ import tempfile
 import os
 
 app = Flask(__name__)
-CORS(app)
+
 if __name__ == '__main__':
     # Obtém a porta do ambiente ou usa a 5000 como padrão
     port = int(os.environ.get('PORT', 5000))
@@ -31,10 +31,10 @@ os.makedirs(TEMP_FOLDER, exist_ok=True)
 
 
 
-@app.route('/')
-def index():
+@app.route('/', methods=['GET'])
+def index(name=None):
     host = request.host
-    return render_template('index.html', host=host)
+    return render_template('index.html', host=host, name=name)
 
 @app.route('/processar', methods=['POST'])
 def processar():
