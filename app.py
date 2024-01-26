@@ -282,6 +282,4 @@ def preencher_vizinhanca(imagem, tamanho_vizinhanca):
 app = Flask(__name__)
 
 if __name__ == '__main__':
-    # Obtém a porta do ambiente ou usa a 5000 como padrão
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)
