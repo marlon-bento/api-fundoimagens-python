@@ -1,5 +1,5 @@
 // script.js
-const ENDPOINT = "http://127.0.0.1:5000/"; // Endpoint da API
+const ENDPOINT = "{{ host }}"; // Endpoint da API
 
 $('#theForm').submit((e) => {
     e.preventDefault();

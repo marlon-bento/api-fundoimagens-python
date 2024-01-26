@@ -12,16 +12,15 @@ import cv2
 import numpy as np
 import base64
 
-from werkzeug.utils import secure_filename
 import tempfile
 import os
 
 app = Flask(__name__)
-CORS(app)# Adicione esta linha para habilitar CORS
-# MAIN
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Obtém a porta do ambiente ou usa a 5000 como padrão
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
 #Extensoes permitidas
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -32,9 +31,10 @@ os.makedirs(TEMP_FOLDER, exist_ok=True)
 
 
 
-@app.route('/', methods=['GET'])
-def index(name=None):
-    return render_template('index.html', name=name)
+@app.route('/')
+def index():
+    host = request.host
+    return render_template('index.html', host=host)
 
 @app.route('/processar', methods=['POST'])
 def processar():
