@@ -284,5 +284,11 @@ def preencher_vizinhanca(imagem, tamanho_vizinhanca):
 
 # MAIN
 
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+# Rotas e lógica do seu aplicativo aqui...
+
 if __name__ == '__main__':
     app.run(debug=True)
