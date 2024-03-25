@@ -20,7 +20,7 @@ app = Flask(__name__)
 if __name__ == '__main__':
     # Obtém a porta do ambiente ou usa a 5000 como padrão
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
 
 #Extensoes permitidas
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}

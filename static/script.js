@@ -3,6 +3,9 @@
 
 // Use host como necessário no seu código JavaScript
 
+//import './style.css';
+
+
 //const ENDPOINT =  // Endpoint da API
 //console.log("host: "+ENDPOINT);
 // script.js
@@ -13,14 +16,21 @@ $('#theForm').submit((e) => {
     e.preventDefault();
     $("#resultado").empty(); // limpa o conteúdo da div
     $("#processamento").empty();
+    $('#mostrar-etapas').empty();
     var inputImagem = $('#inputImagem')[0].files[0]; //Imagem alvo
     var inputFundo = $('#inputFundo')[0].files[0]; //Imagem fundo
     var formData = new FormData($('#theForm')[0]);
+    const carregando = document.getElementById('carregando');
 
     // Mensagem de processamento
-    $('#processamento').innerHTML = 'Processando a imagem...';
+    //carregando.classList.remove('d-none');
+    carregando.innerHTML = `
+        <img class="Dao" src="${carregando.getAttribute('imgsrc')}" alt="UDAO" />
+        <p><span class="bold">Aguarde</span> o processo...</p>
+    `;
     $('#resultado').innerHTML = '';
 
+    
 
     // Requisicao AJAX pelo jQuery
     $.ajax({
@@ -30,62 +40,37 @@ $('#theForm').submit((e) => {
         contentType: false,
         processData: false,
         success: function (data) {
+            carregando.innerHTML = " ";
             // Recebe o JSON resposta da API caso sucesso
-            document.getElementById('resultado').innerHTML = "<h1>Resultado:</h1>";
-            // Exibir imagem original
-            document.getElementById('resultado').innerHTML +=` 
-            <div class="col text-center">          
-                <img src="data:image/png;base64, ${data.imagem_original}" alt="">
-                <h1 class="fs-2 p-2 bg-dark bg-opacity-50 text-info">Original</h1>
+            carregando.innerHTML = "<h1>Resultado:</h1>";
+            // Exibir resultado
+            document.getElementById('resultado').innerHTML +=  ` 
+            <div class="card-resultado">          
+                <img id="minhaImagem" class="imagem-resultado" src="data:image/png;base64, ${data.resultado}" alt="">
+                <h1 class="texto-card-resultado">Resultado Final</h1>
             </div>`;
-            // Exibir imagem em escala de cinza
-            document.getElementById('processamento').innerHTML += ` 
-                <div class="col text-center">          
-                    <img src="data:image/png;base64, ${data.imagem_gray}" alt="">
-                    <h1 class="fs-2 p-2 bg-dark bg-opacity-50 text-info">Cinza</h1>
-                </div>`;
-            // Exibir imagem canny
-            document.getElementById('processamento').innerHTML +=  ` 
-                <div class="col text-center">          
-                    <img src="data:image/png;base64, ${data.imagem_canny}" alt="">
-                    <h1 class="fs-2 p-2 bg-dark bg-opacity-50 text-info">Segmentação Canny</h1>
-                </div>`;
-            // Exibir imagem limiarizada
-            document.getElementById('processamento').innerHTML +=  ` 
-                <div class="col text-center">          
-                    <img src="data:image/png;base64, ${data.imagem_limiarizacao}" alt="">
-                    <h1 class="fs-2 p-2 bg-dark bg-opacity-50 text-info">Segmentação Limiarização</h1>
-                </div>`;
-            // Exibir imagem sobelizada
-            document.getElementById('processamento').innerHTML +=  ` 
-                <div class="col text-center">          
-                    <img src="data:image/png;base64, ${data.imagem_sobel}" alt="">
-                    <h1 class="fs-2 p-2 bg-dark bg-opacity-50 text-info">Segmentação Sobel x|y</h1>
-                </div>`;
-            // Exibir imagem somada
-            document.getElementById('processamento').innerHTML +=  ` 
-                <div class="col text-center">          
-                    <img src="data:image/png;base64, ${data.imagem_soma}" alt="">
-                    <h1 class="fs-2 p-2 bg-dark bg-opacity-50 text-info">Soma das Operações</h1>
-                </div>`;
-            // Perfumaria
-            //document.getElementById('resultado').innerHTML = "<h1>Resultado final:</h1>";
             // Exibir imagem processada
-            document.getElementById('resultado').innerHTML += ` 
-            <div class="col text-center">          
-                <img src="data:image/png;base64, ${data.imagem_semfundo}" alt="">
-                <h1 class="fs-2 p-2 bg-dark bg-opacity-50 text-info">Sem Background</h1>
-            </div>`;
-            // Exibir imagem com o fundo
-            document.getElementById('resultado').innerHTML += ` 
-            <div class="col text-center">          
-                <img id="minhaImagem" src="data:image/png;base64, ${data.resultado}" alt="">
-                <h1 class="fs-2 p-2 bg-dark bg-opacity-50 text-info">Resultado Final</h1>
-            </div>`;
+            document.getElementById('resultado').innerHTML += cardModel(data.imagem_semfundo, 'Sem Fundo');
+            // Exibir imagem original
+            document.getElementById('resultado').innerHTML += cardModel(data.imagem_original,'Original');
+            // Exibir imagem em escala de cinza
+            document.getElementById('processamento').innerHTML += cardModel(data.imagem_gray,'Escala Cinza');
+            // Exibir imagem canny
+            document.getElementById('processamento').innerHTML +=  cardModel(data.imagem_canny, 'Canny');
+            // Exibir imagem limiarizada
+            document.getElementById('processamento').innerHTML +=  cardModel(data.imagem_limiarizacao, 'Limiarização');
+            // Exibir imagem sobelizada
+            document.getElementById('processamento').innerHTML +=  cardModel(data.imagem_sobel, 'Filtro Sobel');
+            // Exibir imagem somada
+            document.getElementById('processamento').innerHTML += cardModel(data.imagem_soma, 'Soma');
+
             // Temporario Merge
-            document.getElementById('resultado').innerHTML+=`  
-                <button onclick="downloadImagem('minhaImagem')" class="btn btn-primary m-3">Download</button>
-                `;
+            document.getElementById('botao-download').innerHTML=`  
+                <button onclick="downloadImagem('minhaImagem')" class="botao m-3 px-5 fs-3">Download</button>
+            `;
+            document.getElementById('mostrar-etapas').innerHTML+=`
+            <button onclick="mostrarEtapas()" id="botaoMostrar" class="btn btn-secondary">Mostrar Etapas</button>
+            `;
             
         },
         error: function (xhr,status,error) {
@@ -118,4 +103,36 @@ function downloadImagem(id) {
     
     // Remover o link do corpo do documento
     document.body.removeChild(link);
+}
+
+function openMenu(){
+    const menu = document.querySelector('#menuMobile');
+    
+    if(menu.classList.contains('escondido')){
+        menu.classList.remove('escondido');
+        menu.classList.add('transicao');
+    }
+    else{
+        menu.classList.add('escondido');
+        menu.classList.remove('transicao');
+    }
+}
+
+function arquivoEnviado(el,input){
+    const fileInput = document.getElementById(input);
+    
+    if (fileInput.files && fileInput.files.length > 0) {
+        document.querySelector('#'+el).classList.remove('d-none');
+      } else {
+        document.querySelector('#'+el).classList.add('d-none');
+      }
+}
+
+function cardModel(data, texto = "..."){
+    return `
+    <div class="card-resultado">          
+        <img class="imagem-resultado" src="data:image/png;base64, ${data}" alt="">
+        <h1 class="texto-card-resultado">${texto}</h1>
+    </div>
+    `;
 }
