@@ -7,6 +7,9 @@
     --bege-classico: #b99c71;
     --branco-paimon: #eeeeee;
 }
+main{
+    min-height: 95vh;
+}
 .bold{
     font-weight: bold;
 }
@@ -18,13 +21,13 @@ header{
 }
 header div{
     height: 70px;
-    
 }
 ul{
     list-style: none;
 }
 .menu{
     color: var(--marrom-arvore);
+    text-decoration: none;
 }
 .menu:hover{
     color: var(--amarelo-pastel);
@@ -32,6 +35,7 @@ ul{
 }
 .titulo, .titulo:hover{
     color: var(--marrom-caramelo);
+    text-decoration: none;
 }
 .titulao{
     color: var(--marrom-arvore);
